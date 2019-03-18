@@ -6,6 +6,8 @@ import VueRouter from 'vue-router'
 import App from './App'
 import Home from './components/goodapp.vue'
 import Login from './components/Login.vue'
+import { AjaxPlugin } from 'vux'
+
 Vue.use(VueRouter)
 
 const routes = [{
