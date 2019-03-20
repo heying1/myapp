@@ -9,7 +9,7 @@ import Login from './components/Login.vue'
 import { AjaxPlugin } from 'vux'
 
 Vue.use(VueRouter)
-
+Vue.use(AjaxPlugin)
 const routes = [{
   path: '/',
   component: Home

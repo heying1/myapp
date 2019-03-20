@@ -7,6 +7,7 @@
         <img slot="icon" src="../assets/grid_icon.png">
       </grid-item>
     </grid>
+    <panel :header="('List of content with image')" :footer="footer" :list="list" :type="type" @on-img-error="onImgError"></panel>
     <tabbar>
       <tabbar-item>
         <img slot="icon" src="../assets/home.png">
@@ -29,7 +30,7 @@
 </template>
 
 <script>
-import { Tabbar, TabbarItem, Group, Cell, XHeader, Swiper, Grid, GridItem } from 'vux'
+import { Tabbar, TabbarItem, Group, Cell, XHeader, Swiper, Grid, GridItem, Panel } from 'vux'
 
 const baseList = [{
   url: 'javascript:',
@@ -56,6 +57,7 @@ const urlList = baseList.map((item, index) => ({
 export default {
   components: {
     Grid,
+    Panel,
     GridItem,
     Swiper,
     XHeader,
@@ -71,13 +73,12 @@ export default {
   },
   created () {
     let _this = this
-    this.$http.post('https://api.apiopen.top/getJoke').then(({data}) => {
+    this.$http.post('http://localhost:3000/api/user').then(({data}) => {
       console.log(data)
       var new_data = data.result.map((item, index) => ({
-        src: item.header,
-        fallbackSrc: item.header,
-        title: item.name,
-        desc: item.text
+         title: item.title,
+        src: item.src,
+        desc: item.content
       }))
       console.log(new_data)
       _this.list = new_data
@@ -87,7 +88,32 @@ export default {
   data () {
     return {
       demo06_list: urlList,
-      demo06_index: 0
+      demo06_index: 0,
+      type: '1',
+      list: [{
+        src: 'http://somedomain.somdomain/x.jpg',
+        fallbackSrc: 'http://placeholder.qiniudn.com/60x60/3cc51f/ffffff',
+        title: '标题一',
+        desc: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
+        url: '/component/cell'
+      }, {
+        src: 'http://placeholder.qiniudn.com/60x60/3cc51f/ffffff',
+        title: '标题二',
+        desc: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。',
+        url: {
+          path: '/component/radio',
+          replace: false
+        },
+        meta: {
+          source: '来源信息',
+          date: '时间',
+          other: '其他信息'
+        }
+      }],
+      footer: {
+        title: 'more',
+        url: 'http://vux.li'
+      }
     }
   }
 }
